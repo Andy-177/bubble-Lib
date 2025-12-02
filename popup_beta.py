@@ -27,6 +27,8 @@ class BubbleBox:
         self.bg_color = "white"  # 右边长方形区域背景色
         # 设置窗口透明度
         self.root.attributes("-alpha", 1.0)  # 初始透明度为 1.0（完全不透明）
+        # 设置窗口始终置顶
+        self.root.attributes("-topmost", True)
         # 创建 Canvas 作为背景
         self.canvas = tk.Canvas(
             self.root,
