@@ -1,6 +1,33 @@
 # bubble-Lib
 A Python library that can pop up custom bubble notifications
+## 注意（Notice）
+bubble.py是可以导入的库，example.py是程序使用的一个示例
+
+bubble.py is a library that can be imported, and example.py is an example used by the program.
 # 使用教程（User Guide）
+1.导入库（Import library）
+```
+import tkinter as tk
+from bubble import BubbleBox
+```
+2.创建窗体实例（Create a form instance）
+```
+import tkinter as tk
+from bubble import BubbleBox
+
+root = tk.Tk()
+root.mainloop()
+```
+3.在实例中使用库（Using a library in an example）
+```
+import tkinter as tk
+from bubble import BubbleBox
+
+root = tk.Tk()
+BubbleBox(window, title="标题（title）", text="消息内容（Message content）", color="#0088FF", height=50)
+BubbleBox.enqueue_bubble(window, title="标题（title）", text="消息内容（Message content）", color="#0088FF", height=50)
+root.mainloop()
+```
 ## 示例（Example）
 ### 无队列，同时弹出（No queue, pop up simultaneously）
 ```
