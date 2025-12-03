@@ -13,6 +13,8 @@ Libraries with _lib can be imported. Use `from bubble_lib import BubbleBox` to i
 ### 功能(Functions)
 - [x] 支持弹出气泡框(Support pop-up bubbles)
 - [ ] 按顺序弹出气泡框(Pop up the bubble frames in order)
+### 局限性(Bugs)
+- [x] 气泡框消失气泡窗依赖的主窗口也会随之消失(When the bubble frame disappears, the main window that the bubble window depends on will also disappear.)
 ## popup
 ### 功能(Functions)
 - [x] 支持弹出气泡框(Support pop-up bubbles)
