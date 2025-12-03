@@ -1,23 +1,18 @@
 # bubble-Lib
 A Python library that can pop up custom bubble notifications
-# 注意(Notice)
-popup.py是bubble.py的实验版，不稳定
+# 使用教程（User Guide）
+## 示例（Example）
+### 无队列，同时弹出（No queue, pop up simultaneously）
+```
+BubbleBox(window, title="标题（title）", text="消息内容（Message content）", color="#0088FF", height=50)
+```
+### 有队列，按顺序弹出（There is a queue, popping out in order）
+```
+BubbleBox.enqueue_bubble(window, title="标题（title）", text="消息内容（Message content）", color="#0088FF", height=50)
+```
+## 提示（Tips）
+1.加入队列使用在BubbleBox后面添加.enqueue_bubble，以将气泡窗添加到队列
+- To join the queue, use .enqueue_bubble after BubbleBox to add a bubble window to the queue.
 
-popup.py is an experimental version of bubble.py and is unstable
-
-带有_lib的是可以引用的库，使用`from bubble_lib import BubbleBox`引用bubble
-
-Libraries with _lib can be imported. Use `from bubble_lib import BubbleBox` to import bubble.
-# 功能与局限(Functions and Bugs)
-## bubble
-### 功能(Functions)
-- [x] 支持弹出气泡框(Support pop-up bubbles)
-- [ ] 按顺序弹出气泡框(Pop up the bubble frames in order)
-### 局限性(Bugs)
-- [x] 气泡框消失气泡窗依赖的主窗口也会随之消失(When the bubble frame disappears, the main window that the bubble window depends on will also disappear.)
-## popup
-### 功能(Functions)
-- [x] 支持弹出气泡框(Support pop-up bubbles)
-- [x] 按顺序弹出气泡框(Pop up the bubble frames in order)
-### 局限性(Bugs)
-- [x] 使用按顺序弹出气泡框时会让气泡窗依赖的主窗口隐藏，并且气泡窗消失进程依然持续(Using sequential pop-up bubbles causes the main window that the bubbles rely on to be hidden, and the bubble window's disappearance process continues.)
+2.第一个属性值是窗口实例的名称，比如创建了实例`root = tk.TK`，那么第一个属性要和实例名称重合，比如在这个例子里就是`BubbleBox.enqueue_bubble(root, title="标题（title）", text="消息内容（Message content）", `color="#0088FF", height=50)`
+- The first attribute value is the name of the window instance. For example, if you create an instance with `root = tk.TK`, then the first attribute should match the instance name. In this example, it would be `BubbleBox.enqueue_bubble(root, title="Title (title)", text="Message content", color="#0088FF", height=50)`
