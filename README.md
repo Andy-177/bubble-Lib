@@ -5,6 +5,7 @@ bubble.py是可以导入的库，example.py是程序使用的一个示例
 
 bubble.py is a library that can be imported, and example.py is an example used by the program.
 # 使用教程（User Guide）
+## 基础教程（Basic Guide）
 1.导入库（Import library）
 ```
 import tkinter as tk
@@ -27,6 +28,29 @@ root = tk.Tk()
 BubbleBox(window, title="标题（title）", text="消息内容（Message content）", color="#0088FF", height=50)
 BubbleBox.enqueue_bubble(window, title="标题（title）", text="消息内容（Message content）", color="#0088FF", height=50)
 root.mainloop()
+```
+## 自定义字体（Custom Font）
+下面这些参数可以控制字体的大小、样式和使用的字体
+
+The following parameters can control the font size, style, and the font used.
+
+#### 中文版（Chinese）
+```
+title_font：标题字体，字符串
+title_size：标题大小，整数型
+title_style：标题样式，字符串
+text_font：消息内容字体，字符串
+text_size：消息内容字体大小，整数型
+text_style：消息样式，字符串
+```
+#### 英文版（English）
+```
+title_font: Title font, string
+title_size: Title size, integer
+title_style: Title style, string
+text_font: Message content font, string
+text_size: Message content font size, integer
+text_style: Message style, string
 ```
 ## 示例（Example）
 ### 无队列，同时弹出（No queue, pop up simultaneously）
