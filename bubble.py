@@ -170,4 +170,3 @@ class BubbleBox:
         cls.task_queue.put((root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style))  # 存储气泡框的参数
         if cls.current_instance is None:  # 如果当前没有正在显示的实例，立即启动第一个任务
             cls._start_next_instance()
-    root.mainloop()
