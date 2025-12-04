@@ -1,4 +1,4 @@
-from bubble_beta import BubbleBox
+from bubble import BubbleBox
 import tkinter as tk
 
 if __name__ == "__main__":
@@ -30,3 +30,4 @@ if __name__ == "__main__":
     BubbleBox.enqueue_bubble(root, title="world", text="world，请注意查看！", color="#FF00F2", height=550)
 
     root.mainloop()
+
