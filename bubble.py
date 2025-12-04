@@ -5,7 +5,7 @@ class BubbleBox:
     task_queue = queue.Queue()  # 线程安全的任务队列
     current_instance = None  # 当前正在显示的气泡框实例
 
-    def __init__(self, root, title="消息提示", text="这是一条消息", color="#800080", height=50):
+    def __init__(self, root, title="消息提示", text="这是一条消息", color="#800080", height=50, title_font="Arial", title_size=14, title_style="bold", text_font="Arial", text_size=12, text_style="normal"):
         self.root_window = root  # 保存主窗口的引用
         self.root = tk.Toplevel(root)  # 使用 Toplevel 创建独立窗口
         self.title = title
@@ -16,6 +16,13 @@ class BubbleBox:
         self.square_size = 90
         self.width = self.square_size + (self.square_size * self.ratio)
         self.height = self.square_size
+
+        self.title_font = title_font
+        self.title_size = title_size
+        self.title_style = title_style
+        self.text_font = text_font
+        self.text_size = text_size
+        self.text_style = text_style
 
         # 设置窗口属性
         self.root.geometry(f"{int(self.width)}x{int(self.height)}")
@@ -67,7 +74,7 @@ class BubbleBox:
             text=self.title,
             bg="white",
             fg=self.theme_color,
-            font=("Arial", 14, "bold"),
+            font=(self.title_font, self.title_size, self.title_style),
             anchor="w",
             justify="left"
         )
@@ -78,7 +85,7 @@ class BubbleBox:
             text=self.text,
             bg="white",
             fg=self.theme_color,
-            font=("Arial", 12, "bold"),
+            font=(self.text_font, self.text_size, self.text_style),
             wraplength=self.width - self.square_size - 20,
             anchor="w",
             justify="left"
@@ -135,14 +142,14 @@ class BubbleBox:
     def _start_next_instance(cls):
         """销毁当前实例后，启动下一个实例（如果存在）"""
         if not cls.task_queue.empty():
-            root, title, text, color, height = cls.task_queue.get()  # 获取下一个任务的参数
-            cls.current_instance = BubbleBox(root, title, text, color, height)  # 实例化并显示下一个气泡框
+            root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style = cls.task_queue.get()  # 获取下一个任务的参数
+            cls.current_instance = BubbleBox(root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style)  # 实例化并显示下一个气泡框
         else:
             cls.current_instance = None  # 没有更多实例时，清除当前实例
 
     @classmethod
-    def enqueue_bubble(cls, root, title, text, color, height=50):
+    def enqueue_bubble(cls, root, title, text, color, height=50, title_font="Arial", title_size=14, title_style="bold", text_font="Arial", text_size=12, text_style="normal"):
         """将创建气泡框的任务参数放入队列中"""
-        cls.task_queue.put((root, title, text, color, height))  # 存储气泡框的参数
+        cls.task_queue.put((root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style))  # 存储气泡框的参数
         if cls.current_instance is None:  # 如果当前没有正在显示的实例，立即启动第一个任务
             cls._start_next_instance()
