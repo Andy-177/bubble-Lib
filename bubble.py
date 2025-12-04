@@ -1,6 +1,7 @@
 import tkinter as tk
 import queue
 
+
 class BubbleBox:
     task_queue = queue.Queue()  # 线程安全的任务队列
     current_instance = None  # 当前正在显示的气泡框实例
@@ -117,31 +118,47 @@ class BubbleBox:
 
     def start_animation(self):
         """从右到左的弹出动画"""
-        if self.start_x > self.target_x:
-            self.start_x -= 5
-            self.root.geometry(f"+{int(self.start_x)}+{int(self.y)}")
-            self.root.after(1, self.start_animation)
-        else:
-            self.root.geometry(f"+{int(self.target_x)}+{int(self.y)}")
-            self.root.after(4000, self.fade_out)  # 4秒后自动消失
+        if self.root and self.root.winfo_exists():
+            if self.start_x > self.target_x:
+                self.start_x -= 5
+                self.root.geometry(f"+{int(self.start_x)}+{int(self.y)}")
+                self.root.after(1, self.start_animation)
+            else:
+                self.root.geometry(f"+{int(self.target_x)}+{int(self.y)}")
+                self.root.after(4000, self.fade_out)  # 4秒后自动消失
 
     def fade_out(self):
         """逐渐透明的消失动画"""
-        current_alpha = self.root.attributes("-alpha")
-        if current_alpha > 0:
-            new_alpha = current_alpha - 0.05
-            self.root.attributes("-alpha", new_alpha)
-            self.root.after(20, self.fade_out)
-        else:
-            self.root.destroy()
-            if self.root_window:  # 如果主窗口存在
-                self.root_window.lift()  # 将主窗口置于最上方
-            self._start_next_instance()
+        if self.root and self.root.winfo_exists():
+            current_alpha = self.root.attributes("-alpha")
+            if current_alpha > 0:
+                new_alpha = current_alpha - 0.05
+                self.root.attributes("-alpha", new_alpha)
+                self.root.after(20, self.fade_out)
+            else:
+                self._safe_destroy()
+
+    def _safe_destroy(self):
+        """安全销毁窗口及其子组件"""
+        if self.root and self.root.winfo_exists():
+            try:
+                # 安全销毁子组件
+                for widget in self.root.winfo_children():
+                    widget.destroy()
+                self.root.destroy()
+            except tk.TclError as e:
+                print(f"Error during safe destroy: {e}")
+            finally:
+                if self.root_window:  # 如果主窗口存在
+                    self.root_window.lift()  # 将主窗口置于最上方
+                self._start_next_instance()
 
     @classmethod
     def _start_next_instance(cls):
         """销毁当前实例后，启动下一个实例（如果存在）"""
-        if not cls.task_queue.empty():
+        if cls.current_instance and cls.current_instance.root and cls.current_instance.root.winfo_exists():
+            cls.current_instance.root.after(100, cls._start_next_instance)  # 稍微延迟启动下一个实例
+        elif not cls.task_queue.empty():
             root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style = cls.task_queue.get()  # 获取下一个任务的参数
             cls.current_instance = BubbleBox(root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style)  # 实例化并显示下一个气泡框
         else:
@@ -153,3 +170,4 @@ class BubbleBox:
         cls.task_queue.put((root, title, text, color, height, title_font, title_size, title_style, text_font, text_size, text_style))  # 存储气泡框的参数
         if cls.current_instance is None:  # 如果当前没有正在显示的实例，立即启动第一个任务
             cls._start_next_instance()
+    root.mainloop()
